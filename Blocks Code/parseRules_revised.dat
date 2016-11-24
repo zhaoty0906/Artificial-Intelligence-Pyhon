@@ -1,0 +1,191 @@
+Parse rules have five elements - Name, Pattern, Type, Action, and Value for those actions
+
+A name is a string with no spaces.
+A patterns is a list of words or references to other patterns OR a disjunct of words or  
+    references to other patterns
+A Type is a Sentence or a Phrase
+The action is the action that the rule invokes
+The Value is the thing that the action is done on 
+
+A rule can be defined with just a name and a pattern
+
+# Some basic sentences 
+
+# Ask about a thing whose name know
+
+Name: What.1
+Pattern: What is <positionPrep> <name>
+Type: Sentence
+Action: Ask
+Value: (<positionPrep> ?x <name>)
+
+# Ask about an attribute of something whose name you know
+
+Name: What.2
+Pattern: What is the <attribute> of <name>
+Type: Sentence
+Action: Ask
+Value: (<attribute> <name> ?x)
+
+# Ask about an attribute of something you can describe
+
+Name: What.3
+Pattern: What is <positionPrep> the <objectDescription>
+Type: Sentence
+Action: Ask
+Value: (<positionPrep> ?x <objectDescription>)
+
+# Ask about an attribute of something you can describe
+
+Name: What.4
+Pattern: What <typeDecscription> are <attributeValue>
+Type: Sentence
+Action: Ask
+Value: (<attribute> <typeDecscription> <attributeValue>)
+
+# Ask about an attribute of something you can describe
+
+Name: Which.1
+Pattern: Which <typeDecscription> are <attributeValue>
+Type: Sentence
+Action: Ask
+Value: (<attribute> <typeDecscription> <attributeValue>)
+
+# Ask about an attribute of something you can describe
+
+Name: Which.2
+Pattern: Which <typeDecscription> has the <objectDescription>
+Type: Sentence
+Action: Ask
+Value: (<attribute> <typeDecscription> <attributeValue>)
+
+# Ask about an attribute of something you can describe
+
+Name: Which.3
+Pattern: Which <typeDecscription> has <objectDescription>
+Type: Sentence
+Action: Ask
+Value: (in <objectDescription> <typeDecscription>)
+
+# Assert that a thing has a value 
+
+Name: Assert.1
+Pattern: <name> is <attributeValue>
+Type: Sentence
+Action: Assert
+Value: (<attribute> <name> <attributeValue>)
+
+# Assert that a thing has a value 
+
+Name: Assert.2
+Pattern: <variable> is <attributeValue>
+Type: Sentence
+Action: Assert
+Value: (<attribute> <variable> <attributeValue>)
+
+Name: Assert.3
+Pattern: <variable> is a <objectType>
+Type: Sentence
+Action: Assert
+Value: (inst <variable> <objectType>)
+
+Name: Assert.4
+Pattern: <name> is <positionPrep> <other_name>
+Type: Sentence
+Action: Assert
+Value: (<positionPrep> <name> <other_name>)
+
+Name: Assert.5
+Pattern: <name> is <positionPrep> the <objectDescription>
+Type: Sentence
+Action: Assert
+Value: (<positionPrep> <name> <objectDescription>)
+
+# Some commands
+
+Name: Do.1
+Pattern: Put <name> on <other_name> 
+Type: Sentence
+Action: Direct
+Value: (on <name> <other_name>)
+
+Name: Do.2
+Pattern: Put <name> <positionPrep> the <typeDecscription>
+Type: Sentence
+Action: Direct
+Value: (<positionPrep> <name> <typeDecscription>)
+
+
+# The prepositions we need to recognize location relationships
+
+Name: positionPrep
+Pattern: on|under|over|in
+Action: AddBindings
+Value: <positionPrep> self
+
+
+# Two different kinds of a attributes color and size
+
+Name: attributeValue
+Pattern: <colorValue>|<sizeValue>
+
+
+# Specific color values
+
+Name: colorValue
+Pattern: red|green|blue
+Action: AddBindings
+Value: <attribute> color, <attributeValue> self
+
+# Specific size values
+
+Name: sizeValue
+Pattern: small|medium|large
+Action: AddBindings
+Value: <attribute> size, <attributeValue> self
+
+# Two different types of objects, blocks and pyramids
+
+Name: objectType
+Pattern: block|pyramid|table|box
+Action: AddBindings
+Value: <objectType> self
+
+# Attributes and our options with regard to them
+
+Name: attribute
+Pattern: color|size|shape
+Action: AddBindings
+Value: <attribute> self
+
+# Recognizing names
+
+Name: name
+Pattern: Block1|Block2|Block3|Box17
+Action: AddBindings
+Value: <name> self
+
+Name: other_name
+Pattern: Block1|Block2|Block3|Box17
+Action: AddBindings
+Value: <other_name> self
+
+# Recognizing objects and types based on descriptions
+
+Name: objectDescription
+Pattern: <attributeValue> <objectType>
+Action: Augment
+Value: (<attribute> ?objectDescriptionVariable <attributeValue>),(inst ?objectDescriptionVariable <objectType>)
+
+Name: typeDecscription
+Pattern: <objectType>
+Action: Augment
+Value: (inst ?typeDecscriptionVariable <objectType>)
+
+# A very special pattern that allows you to absorbe names form text and move them into the 
+# data
+
+Name: variable
+Pattern: *
+Action: AddBindings
+Value: <variable> self

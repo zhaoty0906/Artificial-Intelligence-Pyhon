@@ -1,0 +1,20 @@
+What is the color of Block1
+What is on Block1
+What is under Block1
+What is over Block1
+What is in Box17
+What is on the red block
+What blocks are red
+Which blocks are red
+Block72 is small
+Block17 is a block
+Block17 is red
+Block1 is on Block2
+Block1 is on the red block
+Put Block1 on Block2
+Put Block1 on the table
+Move Block2 to Block1
+Pick up the red block
+Empty the box
+Clear the red block
+Stack the large block onto Block2
