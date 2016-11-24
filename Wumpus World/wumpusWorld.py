@@ -2,7 +2,6 @@
 '''
 Created on 2016年10月29日
 
-@author: KeWang TianyuZhao Yifei Ge
 '''
 import updatewumpusNowWithRocks
 import impWumpusWorld
